@@ -130,7 +130,7 @@ function draw()
 function drop()
 {
   rope.break();
-  fruit_con.dettach();
+  fruit_con.detach();
   fruit_con = null; 
 }
 
