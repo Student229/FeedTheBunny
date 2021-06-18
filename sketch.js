@@ -29,9 +29,6 @@ var cut_sound;
 var sad_sound;
 var eating_sound;
 var air;
-var canW;
-var canH;
-
 function preload()
 {
   bg_img = loadImage('background.png');
@@ -100,7 +97,7 @@ function setup() {
 function draw() 
 {
   background(51);
-  image(bg_img,0,0,displayWidth+80,displayHeight);
+  image(bg_img,0,0,490,690);
 
   push();
   imageMode(CENTER);
