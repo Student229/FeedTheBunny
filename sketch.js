@@ -13,6 +13,7 @@ var rope,fruit,ground;
 var fruit_con;
 var fruit_con_2;
 
+var blower;
 var bg_img;
 var food;
 var rabbit;
@@ -58,7 +59,7 @@ function setup() {
   frameRate(80);
 
   bk_song.play();
-  bk_song.setVolume(0.5);
+  bk_song.setVolume(0.1);
 
   engine = Engine.create();
   world = engine.world;
@@ -75,7 +76,7 @@ function setup() {
   blink.frameDelay = 20;
   eat.frameDelay = 20;
 
-  bunny = createSprite(230,620,100,100);
+  bunny = createSprite(370,620,100,100);
   bunny.scale = 0.2;
 
   bunny.addAnimation('blinking',blink);
@@ -87,6 +88,16 @@ function setup() {
   Matter.Composite.add(rope.body,fruit);
 
   fruit_con = new Link(rope,fruit);
+
+  blower = createImg('balloon.png');
+  blower.position(10,250);
+  blower.size(150,100);
+  blower.mouseClicked(airBlow);
+
+  mute_btn = createImg('mute.png');
+  mute_btn.position(450,20);
+  mute_btn.size(50,50);
+  mute_btn.mouseClicked(mute);
 
   rectMode(CENTER);
   ellipseMode(RADIUS);
@@ -114,12 +125,15 @@ function draw()
 
   if(collide(fruit,bunny)==true)
   {
+    eating_sound.play();
     bunny.changeAnimation('eating');
   }
 
 
   if(fruit!=null && fruit.position.y>=650)
   {
+    bk_song.stop();
+    sad_sound.play();
     bunny.changeAnimation('crying');
     fruit=null;
      
@@ -129,6 +143,7 @@ function draw()
 
 function drop()
 {
+  cut_sound.play();
   rope.break();
   fruit_con.detach();
   fruit_con = null; 
@@ -152,4 +167,17 @@ function collide(body,sprite)
          }
 }
 
+function airBlow(){
+  Matter.Body.applyForce(fruit,{x:0,y:0},{x:0.01,y:0})
+}
+
+function mute(){
+  if(bk_song.isPlaying()){
+    bk_song.stop();
+  }
+  else{
+    bk_song.play();
+  }
+
+}
 
